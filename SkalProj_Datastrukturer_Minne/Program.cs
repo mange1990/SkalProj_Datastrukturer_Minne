@@ -173,14 +173,25 @@ namespace SkalProj_Datastrukturer_Minne
                         Console.WriteLine($"Count: {l.Count} Capacity: {l.Capacity} ");
                     else if (collection is Queue<string> q)
                     {
-                        Console.WriteLine($"Count: {q.Count}\nFirst element queue is: {q?.Peek()}");
+                        Console.WriteLine($"Count: {q.Count}\nFirst element in queue is: {q?.Peek()}");
                         Console.Write("Queue Element: ");
                         foreach (var element in q)
                         {
                             Console.Write($"{element},");
                         }
                         Console.WriteLine("\n");
-                    }    
+                    }   
+                    else if (collection is Stack<string> s)
+                    {
+                        
+                        Console.WriteLine($"Count: {s.Count}\nFirst element in stack is: {s?.Peek()}");
+                        Console.Write("Stack Element: ");
+                        foreach (var element in s)
+                        {
+                            Console.Write($"{element},");
+                        }
+                        Console.WriteLine("\n");
+                    }
                 }
                 catch (IndexOutOfRangeException) //If the input line is empty, we ask the users for some input.
                 {
@@ -214,9 +225,6 @@ namespace SkalProj_Datastrukturer_Minne
             Queue<string> queue = new Queue<string>();
             Examine(queue, m => queue.Enqueue(m), m => queue.Dequeue(), "Wrong input, enter + following by character to add to the queue or - to remove the first element in queue");
 
-
-            
-            
             /*
              * Loop this method untill the user inputs something to exit to main menue.
              * Create a switch with cases to enqueue items or dequeue items
@@ -229,15 +237,59 @@ namespace SkalProj_Datastrukturer_Minne
         /// </summary>
         static void ExamineStack()
         {
-            /*
-             * Loop this method until the user inputs something to exit to main menue.
-             * Create a switch with cases to push or pop items
-             * Make sure to look at the stack after pushing and and poping to see how it behaves
-            */
+            /*Svar 3.1:
+             * Det är inte så smart att använda sig av stack för att simulera en kö eftersom en stack beter sig helt annorlunda jämfört med en kö.
+             * När man kör Pop på en stack så är det senaste elementet som har lagt till som tas bort från stacken, d.v.s. sist in först ut.
+             * För att simulera ICA-kön med en stack så blir det alltså den som kom in i kön sist som får hjälp först.
+             * En stack fungerar alltså i omvänd ordning jämfört med en kö och fungerar alltså inte för att simulera en kö.
+             */
+            Stack<string> stack = new Stack<string>();
+            Examine(stack, m => stack.Push(m), m => stack.Pop(), "Wrong input, enter + following by character to add to the stack or - to remove the last insert element in stack");
         }
 
         static void CheckParanthesis()
         {
+            Console.WriteLine("Please enter some input! Press 0 to navigate to the main menu");
+            string input = Console.ReadLine();
+
+            if (input == "0") return;
+            else
+            {
+                Stack<char> parenthes = new Stack<char>();
+                bool invalidString = true;
+
+                foreach (var c in input)
+                {
+                    if (c == '(' || c == '{' || c == '[')
+                        parenthes.Push(c);
+                    else if (c == ')' || c == '}' || c == ']')
+                    {
+                        if (parenthes.Peek() == c)
+                        {
+                            parenthes.Pop();
+                        }
+                        else
+                        {
+                            invalidString = false;
+                        }
+                    }
+                    else
+                        continue;
+                }
+
+                if (parenthes.Count != 0)
+                {
+                    invalidString = false;
+                }
+
+                if (invalidString)
+                    Console.WriteLine("String is valid");
+                else
+                    Console.WriteLine("String is not valid");
+
+
+            }
+
             /*
              * Use this method to check if the paranthesis in a string is Correct or incorrect.
              * Example of correct: (()), {}, [({})],  List<int> list = new List<int>() { 1, 2, 3, 4 };
