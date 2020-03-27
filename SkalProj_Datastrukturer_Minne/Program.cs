@@ -264,7 +264,15 @@ namespace SkalProj_Datastrukturer_Minne
                         parenthes.Push(c);
                     else if (c == ')' || c == '}' || c == ']')
                     {
-                        if (parenthes.Peek() == c)
+                        if (parenthes.Peek() == '(' && c == ')')
+                        {
+                            parenthes.Pop();
+                        }
+                        else if (parenthes.Peek() == '{' && c == '}')
+                        {
+                            parenthes.Pop();
+                        }
+                        else if (parenthes.Peek() == '[' && c == ']')
                         {
                             parenthes.Pop();
                         }
@@ -276,18 +284,14 @@ namespace SkalProj_Datastrukturer_Minne
                     else
                         continue;
                 }
-
                 if (parenthes.Count != 0)
                 {
                     invalidString = false;
                 }
-
                 if (invalidString)
                     Console.WriteLine("String is valid");
                 else
                     Console.WriteLine("String is not valid");
-
-
             }
 
             /*
@@ -295,7 +299,6 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of correct: (()), {}, [({})],  List<int> list = new List<int>() { 1, 2, 3, 4 };
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
-
         }
 
     }
