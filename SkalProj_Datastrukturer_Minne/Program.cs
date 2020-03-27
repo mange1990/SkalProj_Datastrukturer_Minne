@@ -132,6 +132,11 @@ namespace SkalProj_Datastrukturer_Minne
         static void ExamineList()
         {
             List<string> list = new List<string>();
+            Examine(list, m => list.Add(m), m => list.Remove(m));
+        }
+
+        private static void Examine(ICollection<string> list, Action<string> methodPlus, Action<string> methodMinus)
+        {
             Console.WriteLine("Please enter some input! Press 0 to navigate to the main menu");
 
             //Loop this method untill the user inputs something to exit to main menue.
@@ -151,11 +156,11 @@ namespace SkalProj_Datastrukturer_Minne
                             return;
                         case '+':
                             //'+': Add the rest of the input to the list (The user could write +Adam and "Adam" would be added to the list)
-                            list.Add(stringToProcess);
+                            methodPlus(stringToProcess);  
                             break;
                         case '-':
                             //'-': Remove the rest of the input from the list (The user could write -Adam and "Adam" would be removed from the list)
-                            list.Remove(stringToProcess);
+                            methodMinus(stringToProcess);
                             break;
                         default:
                             //As a default case, tell them to use only + or -
@@ -173,11 +178,11 @@ namespace SkalProj_Datastrukturer_Minne
             }
         }
 
-                
-            
-           
-              
-           
+
+
+
+
+
 
         /*Övning2  1.
          * a  {}
@@ -187,7 +192,7 @@ namespace SkalProj_Datastrukturer_Minne
            e {Greta, Stina}
            f {Stina}
            g {Stina, Olle}
-        */ 
+        */
 
         /// <summary>
         /// Examines the datastructure Queue
@@ -195,7 +200,9 @@ namespace SkalProj_Datastrukturer_Minne
         static void ExamineQueue()
         {
             Queue<string> queue = new Queue<string>();
-            
+            Examine(queue, m => queue.Enqueue(m), m => queue.Dequeue());
+
+
             
             
             /*
