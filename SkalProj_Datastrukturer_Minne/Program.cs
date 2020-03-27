@@ -56,6 +56,7 @@
 
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SkalProj_Datastrukturer_Minne
@@ -132,10 +133,10 @@ namespace SkalProj_Datastrukturer_Minne
         static void ExamineList()
         {
             List<string> list = new List<string>();
-            Examine(list, m => list.Add(m), m => list.Remove(m));
+            Examine(list, m => list.Add(m), m => list.Remove(m), "Wrong input, enter + or - following by characters");
         }
 
-        private static void Examine(ICollection<string> list, Action<string> methodPlus, Action<string> methodMinus)
+        private static void Examine(ICollection collection, Action<string> methodPlus, Action<string> methodMinus, string wrongMessage)
         {
             Console.WriteLine("Please enter some input! Press 0 to navigate to the main menu");
 
@@ -164,11 +165,22 @@ namespace SkalProj_Datastrukturer_Minne
                             break;
                         default:
                             //As a default case, tell them to use only + or -
-                            Console.WriteLine("Wrong input, enter + or - following by characters");
+                            Console.WriteLine(wrongMessage);
                             break;
                     }
                     //look at the count and capacity of the list
-                    Console.WriteLine($"Count: {list.Count} Capacity: {list.Capacity} ");
+                    if (collection is List<string> l)
+                        Console.WriteLine($"Count: {l.Count} Capacity: {l.Capacity} ");
+                    else if (collection is Queue<string> q)
+                    {
+                        Console.WriteLine($"Count: {q.Count}\nFirst element queue is: {q?.Peek()}");
+                        Console.Write("Queue Element: ");
+                        foreach (var element in q)
+                        {
+                            Console.Write($"{element},");
+                        }
+                        Console.WriteLine("\n");
+                    }    
                 }
                 catch (IndexOutOfRangeException) //If the input line is empty, we ask the users for some input.
                 {
@@ -200,7 +212,7 @@ namespace SkalProj_Datastrukturer_Minne
         static void ExamineQueue()
         {
             Queue<string> queue = new Queue<string>();
-            Examine(queue, m => queue.Enqueue(m), m => queue.Dequeue());
+            Examine(queue, m => queue.Enqueue(m), m => queue.Dequeue(), "Wrong input, enter + following by character to add to the queue or - to remove the first element in queue");
 
 
             
