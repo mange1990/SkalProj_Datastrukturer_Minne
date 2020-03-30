@@ -63,13 +63,15 @@ namespace SkalProj_Datastrukturer_Minne
 {
     class Program
     {
+      
+
         /// <summary>
         /// The main method, vill handle the menues for the program
         /// </summary>
         /// <param name="args"></param>
         static void Main()
         {
-
+          
             while (true)
             {
                 Console.WriteLine("Please navigate through the menu by inputting the number \n(1, 2, 3 ,4, 0) of your choice"
@@ -133,10 +135,10 @@ namespace SkalProj_Datastrukturer_Minne
         static void ExamineList()
         {
             List<string> list = new List<string>();
-            Examine(list, m => list.Add(m), m => list.Remove(m), "Wrong input, enter + or - following by characters");
+            Examine(list); //"Wrong input, enter + or - following by characters"
         }
 
-        private static void Examine(ICollection collection, Action<string> methodPlus, Action<string> methodMinus, string wrongMessage)
+        private static void Examine<T>(IEnumerable<T> collection)
         {
             Console.WriteLine("Please enter some input! Press 0 to navigate to the main menu");
 
@@ -157,15 +159,18 @@ namespace SkalProj_Datastrukturer_Minne
                             return;
                         case '+':
                             //'+': Add the rest of the input to the list (The user could write +Adam and "Adam" would be added to the list)
-                            methodPlus(stringToProcess);  
+                            collection.AddColl(stringToProcess);
                             break;
                         case '-':
                             //'-': Remove the rest of the input from the list (The user could write -Adam and "Adam" would be removed from the list)
-                            methodMinus(stringToProcess);
+                            collection.RemoveColl(stringToProcess);
                             break;
                         default:
+                        
+                            
+
                             //As a default case, tell them to use only + or -
-                            Console.WriteLine(wrongMessage);
+                            Console.WriteLine("");
                             break;
                     }
                     //look at the count and capacity of the list
